@@ -26,19 +26,24 @@ while getopts "hvtn:" opt; do
     "t")
       do_tests=true ;;
     "n")
-      if [[ ! $OPTARG ]]; then
-        $0 -h
-        exit 0
+      if [[ -z "$OPTARG" || "${OPTARG:0:1}" = "-" ]] ; then
+        exit 1
       fi
-        num_threads=$OPTARG ;;
+      num_threads=$OPTARG ;;
     "h")
-      echo -e "USAGE: \x1b[1m$0\x1b[0m [options]"
-      echo -e "OPTIONS:"
+      echo -e "USAGE: \x1b[1m$0\x1b[0m [PARAMS]"
+      echo -e "PARAMS:"
       echo -e "\t--help,      -h\tshow this text"
       echo -e "\t--verbose,   -v\tenable printing of debug info"
       echo -e "\t--threads N, -n N\tset numbers of threads if mpi is enabled"
       echo -e "\t--test,      -t\ttest compiled files"
       exit 0 ;;
+    \?)
+      echo "Invalid option: please use --help for more info on how to use."
+      exit 1;;
+    :)
+      echo "Argument required:  please use --help for more info on how to use."
+      exit 1;;
     *) ;;
   esac
 done
