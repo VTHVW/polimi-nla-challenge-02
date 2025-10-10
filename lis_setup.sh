@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/bin/bash
 
 export num_threads=4  # default threads to use if mpi is enabled
 export lis_path=./lis/test # path to location of files to compile
@@ -61,6 +61,8 @@ fi
 if [[ ! -d lis ]]; then
   if [[ $verbose ]]; then echo "Directory lis not found, downloading from https://www.ssisc.org/lis/dl/lis-2.1.10.zip"; fi
   wget --quiet https://www.ssisc.org/lis/dl/lis-2.1.10.zip
+  wget_res=$?
+  if [[ ! wget_res -eq 0 ]]; then echo "Couldn't download lis directory... Aborting."; exit $wget_res; fi
   unzip lis-2.1.10.zip
   mv lis-2.1.10 lis
   if [[ $verbose ]]; then echo "Directory lis created"; fi
@@ -70,15 +72,23 @@ fi
 
 
 $lis_compiler $lis_path/etest1.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver1
+comp_res=$?
+if [[ ! comp_res -eq 0 ]]; then echo "Couldn't compile $lis_path/etest1.c into $binaries_path/lis_eigensolver1... Aborting."; exit $comp_res; fi
 if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver1 compiled"; fi
 
 $lis_compiler $lis_path/etest2.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver2
+comp_res=$?
+if [[ ! comp_res -eq 0 ]]; then echo "Couldn't compile $lis_path/etest2.c into $binaries_path/lis_eigensolver2... Aborting."; exit $comp_res; fi
 if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver2 compiled"; fi
 
 $lis_compiler $lis_path/etest4.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver4
+comp_res=$?
+if [[ ! comp_res -eq 0 ]]; then echo "Couldn't compile $lis_path/etest4.c into $binaries_path/lis_eigensolver4... Aborting."; exit $comp_res; fi
 if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver4 compiled"; fi
 
 $lis_compiler $lis_path/etest5.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver5
+comp_res=$?
+if [[ ! comp_res -eq 0 ]]; then echo "Couldn't compile $lis_path/etest4.c into $binaries_path/lis_eigensolver4... Aborting."; exit $comp_res; fi
 if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver4 compiled"; fi
 
 if [[ $do_tests ]]; then
