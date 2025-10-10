@@ -1,18 +1,91 @@
 #!/usr/bin/zsh
 
-num_threads=1
-lis_path=./lis/test
-binaries_path=./bin
+export num_threads=4  # default threads to use if mpi is enabled
+export lis_path=./lis/test # path to location of files to compile
+export lis_output_dir=./media/lisres # path for lis output
+export binaries_path=./bin # path of compilation results
+export lis_compiler="gcc"  # generic compiler to use
+export lis_exec_prefix=""  # generic options to use when executing (mostly for mpi)
 
-if [[ ! -d lis ]]; then
-  wget https://www.ssisc.org/lis/dl/lis-2.1.10.zip
-  unzip lis-2.1.10.zip
-  mv lis-2.1.10 lis
-  echo "directory lis created"
+# args initialization
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    "--help")     set -- "$@" "-h" ;;
+    "--verbose")  set -- "$@" "-v" ;;
+    "--threads")       set -- "$@" "-n" ;;
+    "--test")       set -- "$@" "-t" ;;
+    *)              set -- "$@" "$arg" ;;
+  esac
+done
+
+while getopts "hvtn:" opt; do
+  case "$opt" in
+    "v")
+      verbose=true ;;
+    "t")
+      do_tests=true ;;
+    "n")
+      if [[ ! $OPTARG ]]; then
+        $0 -h
+        exit 0
+      fi
+        num_threads=$OPTARG ;;
+    "h")
+      echo -e "USAGE: \x1b[1m$0\x1b[0m [options]"
+      echo -e "OPTIONS:"
+      echo -e "\t--help,      -h\tshow this text"
+      echo -e "\t--verbose,   -v\tenable printing of debug info"
+      echo -e "\t--threads N, -n N\tset numbers of threads if mpi is enabled"
+      echo -e "\t--test,      -t\ttest compiled files"
+      exit 0 ;;
+    *) ;;
+  esac
+done
+
+if [[ $APPTAINER_NAME ]]; then
+
+  if [[ $verbose ]]; then echo "In AppTainer: using mpicc and mpirun"; fi
+
+  lis_compiler="mpicc -DUSE_MPI"
+  lis_exec_prefix="mpirun -n $num_threads"
 else
-  echo "directory lis found"
+
+  if [[ $verbose ]]; then echo "Not in AppTainer: using gcc"; fi
+
+  lis_compiler="gcc"
+  lis_exec_prefix=""
 fi
 
-mpicc -DUSE_MPI -I$mkLisInc -L$mkLisLib -llis $lis_path/test1.c -o $binaries_path/test1
+# if lis dir not present download it and unzip
+if [[ ! -d lis ]]; then
+  if [[ $verbose ]]; then echo "Directory lis not found, downloading from https://www.ssisc.org/lis/dl/lis-2.1.10.zip"; fi
+  wget --quiet https://www.ssisc.org/lis/dl/lis-2.1.10.zip
+  unzip lis-2.1.10.zip
+  mv lis-2.1.10 lis
+  if [[ $verbose ]]; then echo "Directory lis created"; fi
+else
+  if [[ $verbose ]]; then echo "Directory lis found"; fi
+fi
 
-mpirun -n $num_threads $binaries_path/test1 $lis_path/testmat0.mtx $lis_path/testvec0.mtx media/sol.mtx media/hist.txt
+
+$lis_compiler $lis_path/etest1.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver1
+if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver1 compiled"; fi
+
+$lis_compiler $lis_path/etest2.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver2
+if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver2 compiled"; fi
+
+$lis_compiler $lis_path/etest4.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver4
+if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver4 compiled"; fi
+
+$lis_compiler $lis_path/etest5.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver5
+if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver4 compiled"; fi
+
+if [[ $do_tests ]]; then
+  if [[ $verbose ]]; then echo "Running tests..."; fi
+  lis_exec_prefix $binaries_path/lis_eigensolver1 $lis_path/testmat0.mtx $lis_path/eigvec.txt $lis_output_dir/.test1_hist.txt -e pi
+  lis_exec_prefix $binaries_path/lis_eigensolver2 20 20 1 $lis_output_dir/.test2_eigvec.mtx $lis_output_dir/.test2_hist.txt
+  lis_exec_prefix $binaries_path/lis_eigensolver4 100
+  lis_exec_prefix $binaries_path/lis_eigensolver5 $lis_path/testmat0.mtx  $lis_path/evals.mtx $lis_output_dir/.test5_eigvecs.mtx $lis_output_dir/.test5_res.txt $lis_output_dir/.test5_iters.txt -ss 4 -e li
+  if [[ $verbose ]]; then echo "Done testing, please check everything works as expected"; fi
+fi
