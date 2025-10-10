@@ -39,10 +39,10 @@ while getopts "hvtn:" opt; do
       echo -e "\t--test,      -t\ttest compiled files"
       exit 0 ;;
     \?)
-      echo "Invalid option: please use --help for more info on how to use."
+      echo "Invalid option: please use --help for more info on how to use." >&2
       exit 1;;
     :)
-      echo "Argument required:  please use --help for more info on how to use."
+      echo "Argument required:  please use --help for more info on how to use." >&2
       exit 1;;
     *) ;;
   esac
@@ -67,7 +67,7 @@ if [[ ! -d lis ]]; then
   if [[ $verbose ]]; then echo "Directory lis not found, downloading from https://www.ssisc.org/lis/dl/lis-2.1.10.zip"; fi
   wget --quiet https://www.ssisc.org/lis/dl/lis-2.1.10.zip
   wget_res=$?
-  if [[ ! wget_res -eq 0 ]]; then echo "Couldn't download lis directory... Aborting."; exit $wget_res; fi
+  if [[ ! wget_res -eq 0 ]]; then echo "Couldn't download lis directory... Aborting." >&2 ; exit $wget_res; fi
   unzip lis-2.1.10.zip
   mv lis-2.1.10 lis
   if [[ $verbose ]]; then echo "Directory lis created"; fi
@@ -78,29 +78,41 @@ fi
 
 $lis_compiler $lis_path/etest1.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver1
 comp_res=$?
-if [[ ! comp_res -eq 0 ]]; then echo "Couldn't compile $lis_path/etest1.c into $binaries_path/lis_eigensolver1... Aborting."; exit $comp_res; fi
+if [[ ! comp_res -eq 0 ]]; then
+  echo "Couldn't compile $lis_path/etest1.c into $binaries_path/lis_eigensolver1... Aborting." >&2
+  exit $comp_res
+fi
 if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver1 compiled"; fi
 
 $lis_compiler $lis_path/etest2.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver2
 comp_res=$?
-if [[ ! comp_res -eq 0 ]]; then echo "Couldn't compile $lis_path/etest2.c into $binaries_path/lis_eigensolver2... Aborting."; exit $comp_res; fi
+if [[ ! comp_res -eq 0 ]]; then
+  echo "Couldn't compile $lis_path/etest2.c into $binaries_path/lis_eigensolver2... Aborting." >&2
+  exit $comp_res
+fi
 if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver2 compiled"; fi
 
 $lis_compiler $lis_path/etest4.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver4
 comp_res=$?
-if [[ ! comp_res -eq 0 ]]; then echo "Couldn't compile $lis_path/etest4.c into $binaries_path/lis_eigensolver4... Aborting."; exit $comp_res; fi
+if [[ ! comp_res -eq 0 ]]; then
+  echo "Couldn't compile $lis_path/etest4.c into $binaries_path/lis_eigensolver4... Aborting." >&2
+  exit $comp_res
+fi
 if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver4 compiled"; fi
 
 $lis_compiler $lis_path/etest5.c -I$mkLisInc -L$mkLisLib -llis -lm -o $binaries_path/lis_eigensolver5
 comp_res=$?
-if [[ ! comp_res -eq 0 ]]; then echo "Couldn't compile $lis_path/etest4.c into $binaries_path/lis_eigensolver4... Aborting."; exit $comp_res; fi
+if [[ ! comp_res -eq 0 ]]; then
+  echo "Couldn't compile $lis_path/etest5.c into $binaries_path/lis_eigensolver5... Aborting." >&2
+  exit $comp_res
+fi
 if [[ $verbose ]]; then echo "$binaries_path/lis_eigensolver4 compiled"; fi
 
 if [[ $do_tests ]]; then
   if [[ $verbose ]]; then echo "Running tests..."; fi
-  $lis_exec_prefix $binaries_path/lis_eigensolver1 $lis_path/testmat0.mtx $lis_path/eigvec.txt $lis_output_dir/.test1_hist.txt -e pi
-  $lis_exec_prefix $binaries_path/lis_eigensolver2 20 20 1 $lis_output_dir/.test2_eigvec.mtx $lis_output_dir/.test2_hist.txt
-  $lis_exec_prefix $binaries_path/lis_eigensolver4 100
-  $lis_exec_prefix $binaries_path/lis_eigensolver5 $lis_path/testmat0.mtx  $lis_path/evals.mtx $lis_output_dir/.test5_eigvecs.mtx $lis_output_dir/.test5_res.txt $lis_output_dir/.test5_iters.txt -ss 4 -e li
-  if [[ $verbose ]]; then echo "Done testing, please check everything works as expected"; fi
+  $lis_exec_prefix $binaries_path/lis_eigensolver1 $lis_path/testmat0.mtx $lis_path/eigvec.txt $lis_output_dir/.test1_hist.txt -e pi &> $lis_output_dir/.test1_out.txt
+  $lis_exec_prefix $binaries_path/lis_eigensolver2 20 20 1 $lis_output_dir/.test2_eigvec.mtx $lis_output_dir/.test2_hist.txt &> $lis_output_dir/.test2_out.txt
+  $lis_exec_prefix $binaries_path/lis_eigensolver4 100 &> $lis_output_dir/.test4_out.txt
+  $lis_exec_prefix $binaries_path/lis_eigensolver5 $lis_path/testmat0.mtx  $lis_path/evals.mtx $lis_output_dir/.test5_eigvecs.mtx $lis_output_dir/.test5_res.txt $lis_output_dir/.test5_iters.txt -ss 4 -e li &> $lis_output_dir/.test5_out.txt
+  if [[ $verbose ]]; then echo "Done testing, please check everything works as expected with $lis_output_dir/.testX_out.txt"; fi
 fi
