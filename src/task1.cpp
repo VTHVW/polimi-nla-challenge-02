@@ -4,8 +4,14 @@
 #include <string>
 
 int main(int argc, char *argv[]) {
-    Sparse S;
-    std::string filename("prova");
-    std::cout << filename << std::endl;
+    Types::Sparse A_g;
+
+    auto res = MtxIO::load_matrix(Constants::TEST_GRAPH_FILE, A_g);
+    if (!res) {
+        std::cerr << "Error loading matrix" << std::endl;
+        return 1;
+    }
+    std::cout << "A_g:\n " << A_g << std::endl;
+
     return 0;
 }
