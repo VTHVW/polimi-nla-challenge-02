@@ -113,6 +113,6 @@ if [[ $do_tests ]]; then
   $lis_exec_prefix $binaries_path/lis_eigensolver1 $lis_path/testmat0.mtx $lis_path/eigvec.txt $lis_output_dir/.test1_hist.txt -e pi &> $lis_output_dir/.test1_out.txt
   $lis_exec_prefix $binaries_path/lis_eigensolver2 20 20 1 $lis_output_dir/.test2_eigvec.mtx $lis_output_dir/.test2_hist.txt &> $lis_output_dir/.test2_out.txt
   $lis_exec_prefix $binaries_path/lis_eigensolver4 100 &> $lis_output_dir/.test4_out.txt
-  $lis_exec_prefix $binaries_path/lis_eigensolver5 $lis_path/testmat0.mtx  $lis_path/evals.mtx $lis_output_dir/.test5_eigvecs.mtx $lis_output_dir/.test5_res.txt $lis_output_dir/.test5_iters.txt -ss 4 -e li &> $lis_output_dir/.test5_out.txt
+  $lis_exec_prefix $binaries_path/lis_eigensolver5 $lis_path/testmat0.mtx  $lis_output_dir/evals.mtx $lis_output_dir/.test5_eigvecs.mtx $lis_output_dir/.test5_res.txt $lis_output_dir/.test5_iters.txt -ss 4 -e li &> $lis_output_dir/.test5_out.txt
   if [[ $verbose ]]; then echo "Done testing, please check everything works as expected with $lis_output_dir/.testX_out.txt"; fi
 fi
