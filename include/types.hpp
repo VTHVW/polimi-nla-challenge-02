@@ -23,6 +23,8 @@ namespace Constants {
     const std::string SMALL_MTX_FILE = std::string("./media/matrices/test_mats/small.mtx");
     const std::string SMALL_EIGEN_VEC_FILE = std::string("./media/matrices/test_mats/small_vector_eig.mtx");
     const std::string SMALL_LIS_VEC_FILE = std::string("./media/matrices/test_mats/small_vector_lis.mtx");
+
+    constexpr Types::Real eps = 1.0e-15;
 }
 
 #endif //CHALLENGE02_TYPES_AND_DEFS_HPP
