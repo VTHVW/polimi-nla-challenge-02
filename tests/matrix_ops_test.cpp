@@ -9,4 +9,11 @@ int main(int argc, char* argv[]) {
     if (frobenius_norm(A) != f_norm) {
         std::cerr << "||A||_f = " << frobenius_norm(A) << " != " << f_norm << std::endl;
     }
+
+    std::cout << A << std::endl;
+
+    std::cout << row_sums(A) << std::endl;
+
+    std::cout << make_diag_matrix(row_sums(A)) << std::endl;
+
 }

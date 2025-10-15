@@ -25,7 +25,6 @@ add_executable(task1 src/task1.cpp)
 target_include_directories(task1 PRIVATE include)
 target_link_libraries (task1 Eigen3::Eigen matrix_ops matrix_io)
 
-
 # test
 add_executable(io_test tests/matrix_io_test.cpp)
 target_include_directories(io_test PRIVATE include)
