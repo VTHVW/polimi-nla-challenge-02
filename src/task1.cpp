@@ -52,7 +52,19 @@ int main(int argc, char *argv[]) {
     // printf("eps = %+.20lf\n",-Constants::eps);
     // printf("ev  = %+.20lf\n",eval(0));
 
+    std::vector<Types::EigenPair> eigenpairs;
+    eigenpairs.reserve(eval.size());
 
+    for (int i = 0; i < eval.size(); i++) {
+        eigenpairs.emplace_back(evec.col(i), eval(i));
+    }
+
+    std::sort(eigenpairs.begin(), eigenpairs.end(), [](const Types::EigenPair &a, const Types::EigenPair &b) -> bool {
+        return a.second < b.second;
+    });
+
+    std::cout << "smallest strictly positive eigenvalue: " << eigenpairs[1].second << std::endl;
+    std::cout << "smallest strictly positive eigenvector: " << eigenpairs[1].first.transpose() << std::endl;
 
     return 0;
 }
