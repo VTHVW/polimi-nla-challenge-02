@@ -1,4 +1,4 @@
-#include "../include/matrix_io.hpp"
+#include <matrix_io.hpp>
 
 
 bool MtxIO::load_matrix(const std::string &filename, Types::Sparse &matrix) {
@@ -72,6 +72,45 @@ bool LisIO::load_vector(const std::string &filename,Types::Vector &vector) {
         std::cerr << "Unable to read all elements from file " << filename << "\n";
         return false;
     }
+    return true;
+}
+
+bool load_eigenpairs(const std::string &evec_filename,const std::string &eval_filename,std::vector<Types::EigenPair> &eigenpairs) {
+
+    eigenpairs.clear(); // vector is not empty  ==> empty it
+
+    Types::Sparse eigen_vectors;
+    Types::Vector eigen_values;
+
+    bool evec_load_res = LisIO::load_matrix(evec_filename, eigen_vectors);
+    bool eval_load_res = LisIO::load_vector(eval_filename, eigen_values);
+
+    if (!evec_load_res) {
+        std::cerr << "Unable to load eigen vectors from file " << evec_filename << "\n";
+        return false;
+    }
+    if (!eval_load_res) {
+        std::cerr << "Unable to load eigen values from file " << eval_filename << "\n";
+        return false;
+    }
+    int num_evec = static_cast<int>(eigen_vectors.nonZeros() / eigen_vectors.rows());
+
+    if (num_evec != eigen_values.size()) {
+        std::cerr << "Unable to read eigenpairs from files " << evec_filename << ", " << eval_filename
+        << " mismatching dimensions"<< std::endl;
+        return false;
+    }
+    if(num_evec * eigen_vectors.rows() != eigen_vectors.nonZeros()) {   // check that nnz is exact multiple
+        std::cerr << "Unable to read eigenpairs from files " << evec_filename
+        << " doesn't contain a valid lis eigenvector format"<< std::endl;
+        return false;
+    }
+
+    eigenpairs.reserve(num_evec);
+    for (int i = 0; i < num_evec; i++) {
+        eigenpairs.emplace_back(static_cast<Types::Vector>(eigen_vectors.col(i)), static_cast<Types::Real>(eigen_values(i)));
+    }
+
     return true;
 }
 

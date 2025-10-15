@@ -1,7 +1,3 @@
-//
-// Created by vale on 10/9/25.
-//
-
 #ifndef CHALLENGE2_MATRIX_OPS_HPP
 #define CHALLENGE2_MATRIX_OPS_HPP
 
