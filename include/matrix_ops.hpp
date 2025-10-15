@@ -10,6 +10,8 @@ Types::Sparse make_laplacian(const Types::Sparse &matrix);
 
 std::vector<Types::EigenPair> compute_eigenpairs(const Types::Sparse &matrix);
 bool is_symmetric(const Types::Sparse &matrix);
+bool is_positive_definite(const Types::Vector &eigenvals);
+bool is_semi_positive_definite(const Types::Vector &eigenvals);
 
 Types::OrderEigenVector order_eigenpairs(const Types::Vector &eigenvector);
 Types::Sparse compute_permutation_matrix(const Types::OrderEigenVector &order_eigenvector);
