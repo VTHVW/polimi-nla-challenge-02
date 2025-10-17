@@ -1,3 +1,7 @@
+/**
+ * @file matrix_io.cpp
+ */
+
 #include <matrix_io.hpp>
 
 /**
@@ -117,7 +121,7 @@ bool LisIO::load_vector(const std::string &filename,Types::Vector &vector) {
  * @param eigenpairs A vector of EigenPairs to be filled, this will clear previous data
  * @return true if file readings were successful, false otherwise
  */
-bool load_eigenpairs(const std::string &evec_filename,const std::string &eval_filename,std::vector<Types::EigenPair> &eigenpairs) {
+bool LisIO::load_eigenpairs(const std::string &evec_filename,const std::string &eval_filename,std::vector<Types::EigenPair> &eigenpairs) {
 
     eigenpairs.clear(); // vector is not empty  ==> empty it
 

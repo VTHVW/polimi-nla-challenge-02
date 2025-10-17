@@ -1,3 +1,7 @@
+/**
+ * @file matrix_ops.cpp
+ */
+
 #include <matrix_ops.hpp>
 
 /**
@@ -11,7 +15,7 @@ Types::Real frobenius_norm(const Types::Sparse &matrix) {
 }
 
 /**
- * Computes a vector v from a matrix A such that \f(v_{i}=\sum_{j=0}^{m-1}{A_{ij}}\foralli\in\{0,\dots,n-1\}\f)
+ * Computes a vector v from a matrix A such that \f($v_{i}=\sum_{j=0}^{m-1}{A_{ij}}\forall i\in\{0,\dots,n-1\}$\f)
  * @param matrix The matrix to compute the vector from
  * @return a vector as per description
  */
@@ -20,7 +24,7 @@ Types::Vector row_sums(const Types::Sparse &matrix) {
 }
 
 /**
- * Generate a diagonal sparse matrix D from a vector such that \f(D_{ii}=v_{i}\foralli\in\{0,\dots,n-1\}\f)
+ * Generate a diagonal sparse matrix D from a vector such that \f($D_{ii}=v_{i}\forall i\in\{0,\dots,n-1\}$\f)
  * @param vector The vector to compute the diagonal matrix from
  * @return a diagonal matrix as per description
  */
