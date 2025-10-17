@@ -1,26 +1,61 @@
 #include <matrix_io.hpp>
 
-
+/**
+ * Load matrix in mtx file into an Eigen Sparse
+ * @param filename The mtx file containing the sparse matrix
+ * @param matrix The matrix to be filled, this will clear previous data
+ * @return true if file reading was successful, false otherwise
+ */
 bool MtxIO::load_matrix(const std::string &filename, Types::Sparse &matrix) {
     return loadMarket(matrix, filename);
 }
 
+/**
+ * Load vector in mtx file into an Eigen VectorXd
+ * @param filename The mtx file containing the vector
+ * @param vector The vector to be filled, this will clear previous data
+ * @return true if file reading was successful, false otherwise
+ */
 bool MtxIO::load_vector(const std::string &filename, Types::Vector &vector) {
     return loadMarketVector(vector, filename);
 }
 
+/**
+ * Save an Eigen Sparse into mtx file immediately readable by Eigen
+ * @param filename The mtx file to be filled, this will delete previous content
+ * @param matrix The matrix to be saved
+ * @return true if file writing was successful, false otherwise
+ */
 bool MtxIO::save_matrix(const std::string &filename, const Types::Sparse &matrix) {
     return saveMarket(matrix, filename);
 }
 
+/**
+ * Save an Eigen VectorXd into a mtx file immediately readable by Eigen
+ * @param filename The mtx file to be filled, this will delete previous content
+ * @param vector The vector to be saved
+ * @return true if file writing was successful, false otherwise
+ */
 bool MtxIO::save_vector(const std::string &filename, const Types::Vector &vector) {
     return saveMarketVector(vector, filename);
 }
 
+/**
+ * Load a LIS generated mtx file into a Eigen Sparse matrix
+ * @param filename The LIS generated mtx file containing the sparse matrix
+ * @param matrix The matrix to be filled, this will clear previous data
+ * @return true if file reading was successful, false otherwise
+ */
 bool LisIO::load_matrix(const std::string &filename,Types::Sparse &matrix) {
     return loadMarket(matrix, filename);
 }
 
+/**
+ * Load a LIS generated mtx file into a Eigen VectorXd
+ * @param filename The LIS generated mtx file containing the vector
+ * @param vector The vector to be filled, this will clear previous data
+ * @return true if file reading was successful, false otherwise
+ */
 bool LisIO::load_vector(const std::string &filename,Types::Vector &vector) {
     std::ifstream in(filename.c_str(), std::ios::in);
     if (!in) return false; // failed to open buffer
@@ -75,6 +110,13 @@ bool LisIO::load_vector(const std::string &filename,Types::Vector &vector) {
     return true;
 }
 
+/**
+ * Load two LIS generated mtx file into a vector of EigenPairs
+ * @param evec_filename The LIS generated mtx file containing the eigenvectors
+ * @param eval_filename The LIS generated mtx file containing the eigenvalues
+ * @param eigenpairs A vector of EigenPairs to be filled, this will clear previous data
+ * @return true if file readings were successful, false otherwise
+ */
 bool load_eigenpairs(const std::string &evec_filename,const std::string &eval_filename,std::vector<Types::EigenPair> &eigenpairs) {
 
     eigenpairs.clear(); // vector is not empty  ==> empty it
@@ -114,10 +156,22 @@ bool load_eigenpairs(const std::string &evec_filename,const std::string &eval_fi
     return true;
 }
 
+/**
+ * Save a Eigen Sparse into a file immediately readable from LIS
+ * @param filename The mtx file to be filled with LIS readable data, this will delete previous content
+ * @param matrix  The matrix to be saved
+ * @return true if file writing was successful, false otherwise
+ */
 bool LisIO::save_matrix(const std::string &filename,const Types::Sparse &matrix) {
     return saveMarket(matrix, filename);
 }
 
+/**
+ * Save a Eigen VectorXd into a file immediately readable from LIS
+ * @param filename The mtx file to be filled with LIS readable data, this will delete previous content
+ * @param vector The vector to be saved
+ * @return true if file writing was successful, false otherwise
+ */
 bool LisIO::save_vector(const std::string &filename,const Types::Vector &vector) {
     std::ofstream out(filename.c_str(), std::ios::out);
     if (!out) return false;
