@@ -12,6 +12,9 @@ elif [[ $1 = "test" ]]; then
     $i
     echo "$i done: $?"
   done
+elif [[ $1 = "docs" ]]; then
+  doxygen ./docs/Doxyfile
+  make -C ./docs/latex
 else
   ./bin/$1
 fi

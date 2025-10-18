@@ -5,6 +5,9 @@
 #include <iostream>
 #include <unsupported/Eigen/SparseExtra>
 
+/**
+ * Contains functions to load and store mtx files that are immediately readable with Eigen
+ */
 namespace MtxIO {
     bool load_matrix(const std::string &filename,Types::Sparse &matrix);
     bool load_vector(const std::string &filename,Types::Vector &vector);
@@ -12,6 +15,9 @@ namespace MtxIO {
     bool save_vector(const std::string &filename,const Types::Vector &vector);
 };
 
+/**
+ * Contains functions to load and store mtx files that are immediately readable with LIS
+ */
 namespace LisIO {
     bool load_matrix(const std::string &filename,Types::Sparse &matrix);
     bool load_vector(const std::string &filename,Types::Vector &vector);

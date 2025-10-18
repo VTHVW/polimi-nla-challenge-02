@@ -5,6 +5,9 @@
 #include <Eigen/Sparse>
 #include <Eigen/Dense>
 
+/**
+ * Contains types used within this library
+ */
 namespace Types {
     using Real = double;
     using Index = Eigen::Index;
@@ -12,9 +15,16 @@ namespace Types {
     using Full = Eigen::MatrixXd;
     using Vector = Eigen::VectorXd;
     using EigenPair = std::pair<Vector, Real>;
+    /**
+     * A vector to be ordered, such that if element i is (j, value) then value was moved form position j to i
+     * @namespace Types
+     */
     using OrderEigenVector = std::vector<std::pair<int, Real>>;
 }
 
+/**
+ * Contains constants used within this library
+ */
 namespace Constants {
 
     const std::string TASK1_GRAPH_FILE = std::string("./media/matrices/task1_graph.mtx");
