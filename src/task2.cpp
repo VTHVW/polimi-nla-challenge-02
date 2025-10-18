@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
     L_s.coeffRef(0,0) += 0.2d;
 
-    LisIO::save_matrix("./media/matrices/social_laplacian.mtx", L_s);
+    LisIO::save_matrix(Constants::SOCIAL_LAPLACIAN_GRAPH_FILE, L_s);
 
     Eigen::SelfAdjointEigenSolver<Types::Sparse> eigensolver(L_s);
     if (eigensolver.info() != Eigen::Success) {
@@ -31,8 +31,9 @@ int main(int argc, char *argv[]) {
     auto eval = eigensolver.eigenvalues();
     auto evec = eigensolver.eigenvectors();
 
-    std::cout << eval.transpose() << std::endl;
-    // std::cout << evec << std::endl;
+    std::cout << eval.minCoeff() << std::endl;
+    std::cout << eval.maxCoeff() << std::endl;
+    std::cout << eval << std::endl;
 
     return 0;
 }

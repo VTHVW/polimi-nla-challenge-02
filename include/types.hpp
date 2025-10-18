@@ -19,7 +19,7 @@ namespace Types {
      * A vector to be ordered, such that if element i is (j, value) then value was moved form position j to i
      * @namespace Types
      */
-    using OrderEigenVector = std::vector<std::pair<int, Real>>;
+    using OrderEigenVector = std::vector<std::pair<Index, Real>>;
 }
 
 /**
@@ -29,6 +29,10 @@ namespace Constants {
 
     const std::string TASK1_GRAPH_FILE = std::string("./media/matrices/task1_graph.mtx");
     const std::string SOCIAL_GRAPH_FILE = std::string("./media/matrices/social.mtx");
+    const std::string SOCIAL_LAPLACIAN_GRAPH_FILE = std::string("./media/matrices/social_laplacian.mtx");
+    const std::string SOCIAL_EVEC_FILE = std::string("./media/lisres/task3_evecs_second_smallest.mtx");
+    const std::string SOCIAL_EVAL_FILE = std::string("./media/lisres/task3_evals_second_smallest.mtx");
+
 
     const std::string SMALL_MTX_FILE = std::string("./media/matrices/test_mats/small.mtx");
     const std::string SMALL_EIGEN_VEC_FILE = std::string("./media/matrices/test_mats/small_vector_eig.mtx");
