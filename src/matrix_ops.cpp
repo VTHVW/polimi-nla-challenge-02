@@ -1,7 +1,7 @@
 #include <matrix_ops.hpp>
 
 Types::Real frobenius_norm(const Types::Sparse &matrix) {
-    return std::sqrt(matrix.cwiseSquare().sum());
+    return std::sqrt(matrix.cwiseAbs2().sum());
 }
 
 Types::Vector row_sums(const Types::Sparse &matrix) {
