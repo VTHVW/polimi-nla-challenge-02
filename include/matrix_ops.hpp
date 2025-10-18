@@ -13,7 +13,7 @@ bool is_symmetric(const Types::Sparse &matrix);
 bool is_positive_definite(const Types::Vector &eigenvals);
 bool is_semi_positive_definite(const Types::Vector &eigenvals);
 
-Types::OrderEigenVector order_eigenpairs(const Types::Vector &eigenvector);
+Types::OrderEigenVector order_eigenvector(const Types::Vector &eigenvector);
 Types::Sparse compute_permutation_matrix(const Types::OrderEigenVector &order_eigenvector);
 
 #endif //CHALLENGE2_MATRIX_OPS_HPP

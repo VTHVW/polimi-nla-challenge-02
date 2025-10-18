@@ -3,6 +3,7 @@
  */
 
 #include <matrix_ops.hpp>
+#include <algorithm>
 
 /**
  * Computes the Frobenius norm of a Sparse
@@ -81,4 +82,45 @@ bool is_semi_positive_definite(const Types::Vector &eigenvals) {
         }
     }
     return true;
+}
+
+
+/**
+ * Orders values in an eigenvector preserving knowledge of previous ordering
+ * @param eigenvector the eigen vector to be sorted
+ * @return a sorted eigenvector
+ */
+Types::OrderEigenVector order_eigenvector(const Types::Vector &eigenvector) {
+    Types::OrderEigenVector order_second_smallest;
+
+    for (auto i = 0; i < eigenvector.size(); ++i) {
+        order_second_smallest.emplace_back(i, eigenvector(i));
+    }
+
+    std::sort(order_second_smallest.begin(),
+        order_second_smallest.end(),
+        [](std::pair<Types::Index, Types::Real> a, std::pair<Types::Index,Types::Real>b) -> bool {
+                return a.second < b.second;
+            }
+        );
+    return order_second_smallest;
+
+}
+
+/**
+ * Computes the permutation matrix, given a ordered eigen vector
+ * @param order_eigenvector The eigen vector to deduce the ordering from
+ * @return The permutation matrix
+ */
+Types::Sparse compute_permutation_matrix(const Types::OrderEigenVector &order_eigenvector) {
+    Types::Sparse P(order_eigenvector.size(), order_eigenvector.size());
+
+    std::vector<Eigen::Triplet<Types::Real>> triplets;
+    for (auto j = 0; j < order_eigenvector.size(); ++j) {
+        triplets.emplace_back(order_eigenvector[j].first, j, 1);
+    }
+
+    P.setFromTriplets(triplets.begin(), triplets.end());
+
+    return P;
 }
