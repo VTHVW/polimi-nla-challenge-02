@@ -23,5 +23,16 @@ int main(int argc, char *argv[]) {
 
     LisIO::save_matrix("./media/matrices/social_laplacian.mtx", L_s);
 
+    Eigen::SelfAdjointEigenSolver<Types::Sparse> eigensolver(L_s);
+    if (eigensolver.info() != Eigen::Success) {
+        std::cerr << "Error computing eigenvalues" << std::endl;
+        return 1;
+    }
+    auto eval = eigensolver.eigenvalues();
+    auto evec = eigensolver.eigenvectors();
+
+    std::cout << eval.transpose() << std::endl;
+    // std::cout << evec << std::endl;
+
     return 0;
 }
