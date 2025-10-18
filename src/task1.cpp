@@ -35,6 +35,9 @@ int main(int argc, char *argv[]) {
     auto eval = eigensolver.eigenvalues();
     auto evec = eigensolver.eigenvectors();
 
+
+    std::cout << "eval (without eps) := \n" << eval.transpose() << std::endl;
+
     eval = eval.unaryExpr([](Types::Real eigval) -> Types::Real {
         return (std::abs(eigval) < Constants::eps ? 0.0 : eigval);
         }
