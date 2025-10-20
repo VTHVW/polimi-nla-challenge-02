@@ -111,3 +111,18 @@ if [[ $? != 0 ]]; then
 fi
 
 if [[ $verbose ]]; then echo "Computing second smallest eigen value and eigenvector (max iteration: $max_iter):"; fi
+
+if [[ $verbose ]]; then
+  $lis_exec_prefix $es5 $lis_input_dir/social_laplacian.mtx $lis_output_dir/task3_evals_second_smallest.mtx \
+   $lis_output_dir/task3_evecs_second_smallest.mtx $lis_output_dir/task3_hist_second_smallest.txt $lis_output_dir/task3_iter_second_smallest.txt \
+   -e si -etol 1.0e-10 -i cg -p ilut -emaxiter $max_iter -ss 2
+else
+  $lis_exec_prefix $es5 $lis_input_dir/social_laplacian.mtx $lis_output_dir/task3_evals_second_smallest.mtx \
+   $lis_output_dir/task3_evecs_second_smallest.mtx $lis_output_dir/task3_hist_second_smallest.txt $lis_output_dir/task3_iter_second_smallest.txt \
+   -e si -etol 1.0e-10 -i cg -p ilut -emaxiter $max_iter -ss 2 &> $lis_output_dir/task3_output_second_smallest.txt
+fi
+
+if [[ $? != 0 ]]; then
+  echo "Error during second smallest eval calculation" >&2
+  exit 1
+fi
