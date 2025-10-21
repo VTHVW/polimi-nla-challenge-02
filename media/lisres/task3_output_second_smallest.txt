@@ -1,5 +1,5 @@
 
-number of processes = 4
+number of processes = 1
 matrix size = 351 x 351 (9153 nonzero entries)
 
 initial vector x      : all components set to 1
@@ -17,24 +17,24 @@ compute eigenpairs in subspace:
 
 Subspace: mode number          = 0
 Subspace: eigenvalue           = 5.669404e-04
-Subspace: elapsed time         = 1.827332e-03 sec.
+Subspace: elapsed time         = 2.918959e-03 sec.
 Subspace: number of iterations = 3
-Subspace: relative residual    = 4.512497e-12
+Subspace: relative residual    = 4.512656e-12
 
 Subspace: mode number          = 1
 Subspace: eigenvalue           = 1.789070e+00
-Subspace: elapsed time         = 3.166454e-02 sec.
+Subspace: elapsed time         = 4.637408e-02 sec.
 Subspace: number of iterations = 113
-Subspace: relative residual    = 8.965706e-11
+Subspace: relative residual    = 9.021704e-11
 
 eigensolver status    : normal end
 
 Subspace: mode number          = 0
 Subspace: eigenvalue           = 5.669404e-04
 Subspace: number of iterations = 3
-Subspace: elapsed time         = 3.376057e-02 sec.
-Subspace:   preconditioner     = 4.204300e-05 sec.
-Subspace:     matrix creation  = 9.000000e-08 sec.
-Subspace:   linear solver      = 1.648561e-03 sec.
-Subspace: relative residual    = 4.512497e-12
+Subspace: elapsed time         = 4.934287e-02 sec.
+Subspace:   preconditioner     = 8.399487e-04 sec.
+Subspace:     matrix creation  = 0.000000e+00 sec.
+Subspace:   linear solver      = 7.867813e-04 sec.
+Subspace: relative residual    = 4.512656e-12
 
