@@ -19,6 +19,8 @@ int main(int argc, char *argv[]) {
     Types::EigenPair &eigenpair = eigenpairs[1];
     Types::Vector &eigenvector = eigenpair.first;
 
+    // std::cout << "second smallest eigen vector: " << eigenvector.transpose() << std::endl;
+
     Types::Index n_p(0),n_n(0);
     for (auto value : eigenvector) {
         value > 0 ? n_p++ : n_n++;
@@ -30,10 +32,14 @@ int main(int argc, char *argv[]) {
     Types::Sparse P = compute_permutation_matrix(order_eigenvector(eigenvector));
 
     Types::Sparse A_ord = P*A_s*P.transpose();
-    Types::Sparse A_ord_block = A_ord.block(0,n_p,n_p,n_n);
-    Types::Sparse A_s_block = A_s.block(0,n_p,n_p,n_n);
+    Types::Sparse A_ord_block = A_ord.topRightCorner(n_p,n_p);
+    A_ord_block.prune(0.0);
+    Types::Sparse A_s_block = A_s.topRightCorner(n_p,n_p);
+    A_s_block.prune(0.0);
     std::cout << "nnz(A_ord_block) := " << A_ord_block.nonZeros() << std::endl;
     std::cout << "nnz(A_s_block) := " <<  A_s_block.nonZeros() << std::endl;
+
+    // std::cout <<  A_ord_block << std::endl;
 
     return 0;
 }

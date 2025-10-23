@@ -1,5 +1,5 @@
 
-number of processes = 4
+number of processes = 1
 matrix size = 351 x 351 (9153 nonzero entries)
 
 initial vector x      : all components set to 1
@@ -13,7 +13,7 @@ eigensolver status    : normal end
 Power: mode number          = 0
 Power: eigenvalue           = 6.013370e+01
 Power: number of iterations = 2007
-Power: elapsed time         = 1.456075e-02 sec.
+Power: elapsed time         = 1.092482e-02 sec.
 Power:   preconditioner     = 0.000000e+00 sec.
 Power:     matrix creation  = 0.000000e+00 sec.
 Power:   linear solver      = 0.000000e+00 sec.
