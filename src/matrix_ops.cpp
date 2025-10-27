@@ -104,20 +104,21 @@ Types::OrderEigenVector order_eigenvector(const Types::Vector &eigenvector) {
             }
         );
     return order_second_smallest;
-
 }
 
 /**
- * Computes the permutation matrix, given a ordered eigen vector
+ * Computes the permutation matrix \f($C_{\pi}$\f) such that \f($A*C_{\pi}$\f) reorders the columns of the matrix A,
+ * the order is given by ordered eigen vector
  * @param order_eigenvector The eigen vector to deduce the ordering from
  * @return The permutation matrix
+ * @see <a href="https://en.wikipedia.org/wiki/Permutation_matrix">The wikipedia page</a>
  */
 Types::Sparse compute_permutation_matrix(const Types::OrderEigenVector &order_eigenvector) {
     Types::Sparse P(order_eigenvector.size(), order_eigenvector.size());
 
     std::vector<Eigen::Triplet<Types::Real>> triplets;
     for (auto j = 0; j < order_eigenvector.size(); ++j) {
-        triplets.emplace_back(order_eigenvector[j].first, j, 1);
+        triplets.emplace_back(j, order_eigenvector[j].first, 1);
     }
 
     P.setFromTriplets(triplets.begin(), triplets.end());
