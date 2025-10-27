@@ -31,9 +31,10 @@ int main(int argc, char *argv[]) {
     auto eval = eigensolver.eigenvalues();
     auto evec = eigensolver.eigenvectors();
 
-    // std::cout << eval.transpose() << std::endl;
+    std::cout << eval.transpose() << std::endl;
     std::cout << eval.minCoeff() << std::endl;
     std::cout << eval.maxCoeff() << std::endl;
+    printf("%+2.20lf\n", eval.maxCoeff());
     // std::cout << evec.col(1).transpose() << std::endl;
 
     return 0;

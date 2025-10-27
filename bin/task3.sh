@@ -86,9 +86,9 @@ if [[ $verbose ]]; then echo "Computing largest eigen value and eigenvector (max
 
 # the largest eigenvalue of L_s up to a tolerance of 10^8
 if [[ $verbose ]]; then
-  $lis_exec_prefix $es1  $lis_input_dir/social_laplacian.mtx $lis_output_dir/task3_evec_larger.mtx $lis_output_dir/task3_hist_larger.txt -e pi -etol 1.0e-8 -p iluc -emaxiter $max_iter
+  $lis_exec_prefix $es1  $lis_input_dir/social_laplacian.mtx $lis_output_dir/task3_evec_larger.mtx $lis_output_dir/task3_hist_larger.txt -e pi -etol 1.0e-8 -p ilut -emaxiter $max_iter
 else
-  $lis_exec_prefix $es1  $lis_input_dir/social_laplacian.mtx $lis_output_dir/task3_evec_larger.mtx $lis_output_dir/task3_hist_larger.txt -e pi -etol 1.0e-8 -p iluc -emaxiter $max_iter &> $lis_output_dir/task3_output_larger.txt
+  $lis_exec_prefix $es1  $lis_input_dir/social_laplacian.mtx $lis_output_dir/task3_evec_larger.mtx $lis_output_dir/task3_hist_larger.txt -e pi -etol 1.0e-8 -p ilut -emaxiter $max_iter &> $lis_output_dir/task3_output_larger.txt
 fi
 
 if [[ $? != 0 ]]; then
@@ -96,13 +96,14 @@ if [[ $? != 0 ]]; then
   exit 1
 fi
 
+
 if [[ $verbose ]]; then echo "Computing largest eigen value and eigenvector (max iteration: $max_iter, μ: $shift):"; fi
 
 # Find a shift μ yielding an acceleration of the previous eigensolver
 if [[ $verbose ]]; then
-  $lis_exec_prefix $es1  $lis_input_dir/social_laplacian.mtx $lis_output_dir/task3_evec_shift.mtx $lis_output_dir/task3_hist_shift.txt -e pi -etol 1.0e-8 -p iluc -emaxiter $max_iter -shift $shift
+  $lis_exec_prefix $es1  $lis_input_dir/social_laplacian.mtx $lis_output_dir/task3_evec_shift.mtx $lis_output_dir/task3_hist_shift.txt -e ii -etol 1.0e-8 -p iluc -emaxiter $max_iter -shift $shift
 else
-  $lis_exec_prefix $es1  $lis_input_dir/social_laplacian.mtx $lis_output_dir/task3_evec_shift.mtx $lis_output_dir/task3_hist_shift.txt -e pi -etol 1.0e-8 -p iluc -emaxiter $max_iter -shift $shift &> $lis_output_dir/task3_output_shift.txt
+  $lis_exec_prefix $es1  $lis_input_dir/social_laplacian.mtx $lis_output_dir/task3_evec_shift.mtx $lis_output_dir/task3_hist_shift.txt -e ii -etol 1.0e-8 -p iluc -emaxiter $max_iter -shift $shift &> $lis_output_dir/task3_output_shift.txt
 fi
 
 if [[ $? != 0 ]]; then

@@ -29,17 +29,23 @@ int main(int argc, char *argv[]) {
     std::cout << "Number of positive entries in the second smallest eigenvector: " << n_p << std::endl;
     std::cout << "Number of negative entries in the second smallest eigenvector: " << n_n << std::endl;
 
-    Types::Sparse P = compute_permutation_matrix(order_eigenvector(eigenvector));
+    Types::OrderEigenVector oev = order_eigenvector(eigenvector);
+    // std::cout << oev << std::endl;
+    Types::Sparse P = compute_permutation_matrix(oev);
 
     Types::Sparse A_ord = P*A_s*P.transpose();
-    Types::Sparse A_ord_block = A_ord.topRightCorner(n_p,n_p);
-    A_ord_block.prune(0.0);
-    Types::Sparse A_s_block = A_s.topRightCorner(n_p,n_p);
-    A_s_block.prune(0.0);
+    Types::Sparse A_ord_block = A_ord.block(0,n_p,n_p,n_n);
+    Types::Sparse A_s_block = A_s.block(0,n_p,n_p,n_n);
+
     std::cout << "nnz(A_ord_block) := " << A_ord_block.nonZeros() << std::endl;
     std::cout << "nnz(A_s_block) := " <<  A_s_block.nonZeros() << std::endl;
 
-    // std::cout <<  A_ord_block << std::endl;
+    // std::cout << A_ord.block(0,0,n_p,n_p) << std::endl;
+    // std::cout << A_s.block(0,0,n_p,n_p) << std::endl;
+    // std::cout << static_cast<Types::Sparse>(A_ord.block(0,0,n_p,n_p)).nonZeros() << std::endl;
+    // std::cout << static_cast<Types::Sparse>(A_s.block(0,0,n_p,n_p)).nonZeros() << std::endl;
+    // std::cout << static_cast<Types::Sparse>(A_ord.block(n_p,n_p,n_n,n_n)).nonZeros() << std::endl;
+    // std::cout << static_cast<Types::Sparse>(A_s.block(n_p,n_p,n_n,n_n)).nonZeros() << std::endl;
 
     return 0;
 }
