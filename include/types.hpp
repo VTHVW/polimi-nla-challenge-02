@@ -22,6 +22,12 @@ namespace Types {
     using OrderEigenVector = std::vector<std::pair<Index, Real>>;
 }
 
+inline std::ostream& operator<<(std::ostream &os, Types::OrderEigenVector &oev) {
+    for (auto j=0; j<oev.size(); ++j)
+        os << "( " << oev[j].first << " , " << j << " ): " << oev[j].second << "\n";
+    return os;
+}
+
 /**
  * Contains constants used within this library
  */

@@ -100,7 +100,7 @@ Types::OrderEigenVector order_eigenvector(const Types::Vector &eigenvector) {
     std::sort(order_second_smallest.begin(),
         order_second_smallest.end(),
         [](std::pair<Types::Index, Types::Real> a, std::pair<Types::Index,Types::Real>b) -> bool {
-                return a.second < b.second;
+                return a.second > b.second;
             }
         );
     return order_second_smallest;
