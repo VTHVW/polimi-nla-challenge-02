@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Number of negative entries in the second smallest eigenvector: " << n_n << std::endl;
 
     Types::OrderEigenVector oev = order_eigenvector(eigenvector);
-    // std::cout << oev << std::endl;
+    std::cout << oev << std::endl;
     Types::Sparse P = compute_permutation_matrix(oev);
 
     Types::Sparse A_ord = P*A_s*P.transpose();
